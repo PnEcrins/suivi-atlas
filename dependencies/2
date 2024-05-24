@@ -1,2 +1,0 @@
-Requirement already satisfied: sqlalchemy in /home/theo/workspace/stjack_back/venv/lib/python3.10/site-packages (1.4.50)
-Requirement already satisfied: greenlet!=0.4.17 in /home/theo/workspace/stjack_back/venv/lib/python3.10/site-packages (from sqlalchemy) (3.0.1)
