@@ -117,7 +117,7 @@ class AttrAdmin(ModelView):
 admin.add_view(AnalyticsView(name=lazy_gettext('Home'), endpoint='analytics'))
 
 admin.add_view(
-    MediasAdmin(SuiviPhoto, db.session, name='Photo', endpoint='photos', url='/photos')
+    MediasAdmin(SuiviPhoto, db.session, name='Photos', endpoint='photos', url='/photos')
 )
 
 admin.add_view(
