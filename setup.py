@@ -28,7 +28,8 @@ setuptools.setup(
         "psycopg2",
         "flask-admin",
         "babel",
-        "Flask-Babel"
+        "Flask-Babel",
+        "gunicorn"
     ],
     extras_require={
         "tests": [
