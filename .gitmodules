@@ -1,3 +1,0 @@
-[submodule "dependencies/Utils-Flask-SQLAlchemy"]
-	path = dependencies/Utils-Flask-SQLAlchemy
-	url = git@github.com:PnX-SI/Utils-Flask-SQLAlchemy.git
