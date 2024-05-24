@@ -10,7 +10,7 @@ with (root_dir / "README.md").open() as f:
 
 
 setuptools.setup(
-    name="flask-sqlalchemy-app",
+    name="app",
     description="TODO",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -18,18 +18,17 @@ setuptools.setup(
     url="https://github.com/PnX-SI/GeoNature/",
     python_requires=">=3.9",
     version=version,
-    packages=setuptools.find_packages("app"),
-    package_dir={"": "app"},
+    packages=setuptools.find_packages("./"),
+    package_dir={"": "."},
     install_requires=[
         "flask",
         "sqlalchemy",
         "flask-sqlalchemy",
-        "utils-flask-sqlalchemy",
-        "marshmallow",
-        "marshmallow-sqlalchemy",
         "toml",
         "psycopg2",
-        "flask_marshmallow",
+        "flask-admin",
+        "babel",
+        "Flask-Babel"
     ],
     extras_require={
         "tests": [

@@ -1,16 +1,13 @@
 from pathlib import Path
 
-import toml
-
-from app.config.config_schema import ConfigSchema
 
 from app.env import APP_DIR
 
+import toml
 
 def load_config():
     config_toml = toml.load(str(APP_DIR / "config" / "config.toml"))
-    config = ConfigSchema().load(config_toml)
-    return config
+    return config_toml
 
 
 config = load_config()

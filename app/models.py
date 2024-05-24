@@ -1,44 +1,75 @@
 from app.env import db
 
-from sqlalchemy import Integer, String, ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column, raiseload, joinedload, relationship
+
+from sqlalchemy import ForeignKey
+from sqlalchemy.ext.hybrid import hybrid_property
 
 
-from sqlalchemy.sql.expression import Select
+class Taxons(db.Model):
+    __tablename__ = "vm_taxons"
+    __table_args__ = {"schema": "atlas"}
+    cd_ref = db.Column(db.Integer, primary_key=True)
+    id_rang = db.Column(db.Unicode)
+    regne = db.Column(db.Unicode)
+    phylum = db.Column(db.Unicode)
+    classe = db.Column(db.Unicode)
+    regne = db.Column(db.Unicode)
+    ordre = db.Column(db.Unicode)
+    famille = db.Column(db.Unicode)
+    lb_nom = db.Column(db.Unicode)
+    lb_auteur = db.Column(db.Unicode)
+    nom_complet = db.Column(db.Unicode)
+    nom_complet_html = db.Column(db.Unicode)
+    nom_vern = db.Column(db.Unicode)
+    nom_valide = db.Column(db.Unicode)
+    nom_vern_eng = db.Column(db.Unicode)
+    group1_inpn = db.Column(db.Unicode)
+    group2_inpn = db.Column(db.Unicode)
+    patrimonial = db.Column(db.Unicode)
 
 
-class UserSelect(Select):
-    inherit_cache = True
 
-    def auto_joinload(self, model, fields=[]):
-        query_option = [raiseload("*")]
-        for f in fields:
-            if f in model.__mapper__.relationships:
-                query_option.append(joinedload(getattr(model, f)))
-        self = self.options(*tuple(query_option))
-        return self
-
-    def where_identifant(self, value):
-        return self.filter_by(identifiant=value)
-
-
-class Organism(db.Model):
-    __tablename__ = "bib_organismes"
-    __table_args__ = {"schema": "utilisateurs"}
-    id_organisme: Mapped[int] = mapped_column(Integer, primary_key=True)
-    nom_organisme: Mapped[str] = mapped_column(String, unique=True, nullable=False)
-
-
-class User(db.Model):
-    __tablename__ = "t_roles"
-    __table_args__ = {"schema": "utilisateurs"}
-    __select_class__ = UserSelect
-
-    id_role: Mapped[int] = mapped_column(Integer, primary_key=True)
-    identifiant: Mapped[str] = mapped_column(String, unique=True, nullable=False)
-    email: Mapped[str] = mapped_column(String)
-    id_organisme: Mapped[int] = mapped_column(
-        String, ForeignKey("utilisateurs.bib_organismes.id_organisme")
+class SuiviPhoto(db.Model):
+    __tablename__ = "suivi_photo"
+    __table_args__ = {"schema": "atlas"}
+    cd_ref = db.Column(
+        db.Integer,  
+        ForeignKey("atlas.vm_taxons.cd_ref"), 
+        primary_key=True
     )
-    active = db.Column(db.Boolean)
-    organism: Mapped["Organism"] = relationship()
+    nom_complet = db.Column(db.Unicode)
+    nom_vern = db.Column(db.Unicode)
+    nb_photos = db.Column(db.Integer)
+    nb_obs = db.Column(db.Unicode)
+    patrimonial = db.Column(db.Unicode)
+    taxons = db.relationship("Taxons")
+
+
+class SuiviAtributs(db.Model):
+    __tablename__ = "suivi_attributs"
+    __table_args__ = {"schema": "atlas"}
+    cd_ref = db.Column(
+        db.Integer,
+        ForeignKey("atlas.vm_taxons.cd_ref"),
+        primary_key=True
+    )
+    nom_complet = db.Column(db.Unicode)
+    nom_vern = db.Column(db.Unicode)
+    nb_obs = db.Column(db.Unicode)
+    patrimonial = db.Column(db.Unicode)
+    description = db.Column(db.Unicode)
+    commentaire = db.Column(db.Unicode)
+    milieu = db.Column(db.Unicode)
+    repartition = db.Column(db.Unicode)
+
+    taxons = db.relationship("Taxons")
+
+
+class VmMedias(db.Model):
+    __tablename__ = "vm_medias"
+    __table_args__ = {"schema": "atlas"}
+    id_media = db.Column(db.Integer, primary_key=True)
+    cd_ref = db.Column(
+        db.Integer,
+        ForeignKey("atlas.vm_taxons.cd_ref"),
+    )
